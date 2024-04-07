@@ -1,0 +1,14 @@
+-myuxi
+-Y
+-b HOME = 0x0000
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Users\oleks\Desktop\Studia\3 semestr\wbudowane\SDCC\bin\..\lib\small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+zegarek.rel
+
+-e

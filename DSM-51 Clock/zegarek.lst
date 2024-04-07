@@ -1,0 +1,1268 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 2.9.0 #5416 (Mar 22 2009) (MINGW32)
+                              4 ; This file was generated Thu Dec 21 13:24:30 2023
+                              5 ;--------------------------------------------------------
+                              6 	.module zegarek
+                              7 	.optsdcc -mmcs51 --model-small
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _WZOR
+                             13 	.globl _main
+                             14 	.globl _init_interrupts
+                             15 	.globl _timer0_isr
+                             16 	.globl _incTime
+                             17 	.globl _CY
+                             18 	.globl _AC
+                             19 	.globl _F0
+                             20 	.globl _RS1
+                             21 	.globl _RS0
+                             22 	.globl _OV
+                             23 	.globl _F1
+                             24 	.globl _P
+                             25 	.globl _PS
+                             26 	.globl _PT1
+                             27 	.globl _PX1
+                             28 	.globl _PT0
+                             29 	.globl _PX0
+                             30 	.globl _RD
+                             31 	.globl _WR
+                             32 	.globl _T1
+                             33 	.globl _T0
+                             34 	.globl _INT1
+                             35 	.globl _INT0
+                             36 	.globl _TXD
+                             37 	.globl _RXD
+                             38 	.globl _P3_7
+                             39 	.globl _P3_6
+                             40 	.globl _P3_5
+                             41 	.globl _P3_4
+                             42 	.globl _P3_3
+                             43 	.globl _P3_2
+                             44 	.globl _P3_1
+                             45 	.globl _P3_0
+                             46 	.globl _EA
+                             47 	.globl _ES
+                             48 	.globl _ET1
+                             49 	.globl _EX1
+                             50 	.globl _ET0
+                             51 	.globl _EX0
+                             52 	.globl _P2_7
+                             53 	.globl _P2_6
+                             54 	.globl _P2_5
+                             55 	.globl _P2_4
+                             56 	.globl _P2_3
+                             57 	.globl _P2_2
+                             58 	.globl _P2_1
+                             59 	.globl _P2_0
+                             60 	.globl _SM0
+                             61 	.globl _SM1
+                             62 	.globl _SM2
+                             63 	.globl _REN
+                             64 	.globl _TB8
+                             65 	.globl _RB8
+                             66 	.globl _TI
+                             67 	.globl _RI
+                             68 	.globl _P1_7
+                             69 	.globl _P1_6
+                             70 	.globl _P1_5
+                             71 	.globl _P1_4
+                             72 	.globl _P1_3
+                             73 	.globl _P1_2
+                             74 	.globl _P1_1
+                             75 	.globl _P1_0
+                             76 	.globl _TF1
+                             77 	.globl _TR1
+                             78 	.globl _TF0
+                             79 	.globl _TR0
+                             80 	.globl _IE1
+                             81 	.globl _IT1
+                             82 	.globl _IE0
+                             83 	.globl _IT0
+                             84 	.globl _P0_7
+                             85 	.globl _P0_6
+                             86 	.globl _P0_5
+                             87 	.globl _P0_4
+                             88 	.globl _P0_3
+                             89 	.globl _P0_2
+                             90 	.globl _P0_1
+                             91 	.globl _P0_0
+                             92 	.globl _B
+                             93 	.globl _ACC
+                             94 	.globl _PSW
+                             95 	.globl _IP
+                             96 	.globl _P3
+                             97 	.globl _IE
+                             98 	.globl _P2
+                             99 	.globl _SBUF
+                            100 	.globl _SCON
+                            101 	.globl _P1
+                            102 	.globl _TH1
+                            103 	.globl _TH0
+                            104 	.globl _TL1
+                            105 	.globl _TL0
+                            106 	.globl _TMOD
+                            107 	.globl _TCON
+                            108 	.globl _PCON
+                            109 	.globl _DPH
+                            110 	.globl _DPL
+                            111 	.globl _SP
+                            112 	.globl _P0
+                            113 	.globl _edit_mode
+                            114 	.globl _INTERRUPT_FLAG
+                            115 	.globl _SEG_OFF
+                            116 	.globl _t0_flag
+                            117 	.globl _send_flag
+                            118 	.globl _rec_flag
+                            119 	.globl _LED
+                            120 	.globl _wyswietlacze
+                            121 	.globl _T0counter
+                            122 	.globl _temp_p
+                            123 	.globl _temp_b
+                            124 	.globl _led_b
+                            125 	.globl _led_p
+                            126 	.globl _kbdBefore
+                            127 	.globl _kbd
+                            128 	.globl _led_led
+                            129 	.globl _led_wyb
+                            130 	.globl _inc_sec
+                            131 	.globl _dec_sec
+                            132 	.globl _inc_min
+                            133 	.globl _dec_min
+                            134 	.globl _inc_hour
+                            135 	.globl _dec_hour
+                            136 	.globl _keyboard
+                            137 	.globl _enter_edit_mode
+                            138 	.globl _refresh_display
+                            139 ;--------------------------------------------------------
+                            140 ; special function registers
+                            141 ;--------------------------------------------------------
+                            142 	.area RSEG    (DATA)
+                    0080    143 _P0	=	0x0080
+                    0081    144 _SP	=	0x0081
+                    0082    145 _DPL	=	0x0082
+                    0083    146 _DPH	=	0x0083
+                    0087    147 _PCON	=	0x0087
+                    0088    148 _TCON	=	0x0088
+                    0089    149 _TMOD	=	0x0089
+                    008A    150 _TL0	=	0x008a
+                    008B    151 _TL1	=	0x008b
+                    008C    152 _TH0	=	0x008c
+                    008D    153 _TH1	=	0x008d
+                    0090    154 _P1	=	0x0090
+                    0098    155 _SCON	=	0x0098
+                    0099    156 _SBUF	=	0x0099
+                    00A0    157 _P2	=	0x00a0
+                    00A8    158 _IE	=	0x00a8
+                    00B0    159 _P3	=	0x00b0
+                    00B8    160 _IP	=	0x00b8
+                    00D0    161 _PSW	=	0x00d0
+                    00E0    162 _ACC	=	0x00e0
+                    00F0    163 _B	=	0x00f0
+                            164 ;--------------------------------------------------------
+                            165 ; special function bits
+                            166 ;--------------------------------------------------------
+                            167 	.area RSEG    (DATA)
+                    0080    168 _P0_0	=	0x0080
+                    0081    169 _P0_1	=	0x0081
+                    0082    170 _P0_2	=	0x0082
+                    0083    171 _P0_3	=	0x0083
+                    0084    172 _P0_4	=	0x0084
+                    0085    173 _P0_5	=	0x0085
+                    0086    174 _P0_6	=	0x0086
+                    0087    175 _P0_7	=	0x0087
+                    0088    176 _IT0	=	0x0088
+                    0089    177 _IE0	=	0x0089
+                    008A    178 _IT1	=	0x008a
+                    008B    179 _IE1	=	0x008b
+                    008C    180 _TR0	=	0x008c
+                    008D    181 _TF0	=	0x008d
+                    008E    182 _TR1	=	0x008e
+                    008F    183 _TF1	=	0x008f
+                    0090    184 _P1_0	=	0x0090
+                    0091    185 _P1_1	=	0x0091
+                    0092    186 _P1_2	=	0x0092
+                    0093    187 _P1_3	=	0x0093
+                    0094    188 _P1_4	=	0x0094
+                    0095    189 _P1_5	=	0x0095
+                    0096    190 _P1_6	=	0x0096
+                    0097    191 _P1_7	=	0x0097
+                    0098    192 _RI	=	0x0098
+                    0099    193 _TI	=	0x0099
+                    009A    194 _RB8	=	0x009a
+                    009B    195 _TB8	=	0x009b
+                    009C    196 _REN	=	0x009c
+                    009D    197 _SM2	=	0x009d
+                    009E    198 _SM1	=	0x009e
+                    009F    199 _SM0	=	0x009f
+                    00A0    200 _P2_0	=	0x00a0
+                    00A1    201 _P2_1	=	0x00a1
+                    00A2    202 _P2_2	=	0x00a2
+                    00A3    203 _P2_3	=	0x00a3
+                    00A4    204 _P2_4	=	0x00a4
+                    00A5    205 _P2_5	=	0x00a5
+                    00A6    206 _P2_6	=	0x00a6
+                    00A7    207 _P2_7	=	0x00a7
+                    00A8    208 _EX0	=	0x00a8
+                    00A9    209 _ET0	=	0x00a9
+                    00AA    210 _EX1	=	0x00aa
+                    00AB    211 _ET1	=	0x00ab
+                    00AC    212 _ES	=	0x00ac
+                    00AF    213 _EA	=	0x00af
+                    00B0    214 _P3_0	=	0x00b0
+                    00B1    215 _P3_1	=	0x00b1
+                    00B2    216 _P3_2	=	0x00b2
+                    00B3    217 _P3_3	=	0x00b3
+                    00B4    218 _P3_4	=	0x00b4
+                    00B5    219 _P3_5	=	0x00b5
+                    00B6    220 _P3_6	=	0x00b6
+                    00B7    221 _P3_7	=	0x00b7
+                    00B0    222 _RXD	=	0x00b0
+                    00B1    223 _TXD	=	0x00b1
+                    00B2    224 _INT0	=	0x00b2
+                    00B3    225 _INT1	=	0x00b3
+                    00B4    226 _T0	=	0x00b4
+                    00B5    227 _T1	=	0x00b5
+                    00B6    228 _WR	=	0x00b6
+                    00B7    229 _RD	=	0x00b7
+                    00B8    230 _PX0	=	0x00b8
+                    00B9    231 _PT0	=	0x00b9
+                    00BA    232 _PX1	=	0x00ba
+                    00BB    233 _PT1	=	0x00bb
+                    00BC    234 _PS	=	0x00bc
+                    00D0    235 _P	=	0x00d0
+                    00D1    236 _F1	=	0x00d1
+                    00D2    237 _OV	=	0x00d2
+                    00D3    238 _RS0	=	0x00d3
+                    00D4    239 _RS1	=	0x00d4
+                    00D5    240 _F0	=	0x00d5
+                    00D6    241 _AC	=	0x00d6
+                    00D7    242 _CY	=	0x00d7
+                            243 ;--------------------------------------------------------
+                            244 ; overlayable register banks
+                            245 ;--------------------------------------------------------
+                            246 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     247 	.ds 8
+                            248 ;--------------------------------------------------------
+                            249 ; internal ram data
+                            250 ;--------------------------------------------------------
+                            251 	.area DSEG    (DATA)
+   0000                     252 _led_wyb::
+   0000                     253 	.ds 2
+   0002                     254 _led_led::
+   0002                     255 	.ds 2
+   0004                     256 _kbd::
+   0004                     257 	.ds 1
+   0005                     258 _kbdBefore::
+   0005                     259 	.ds 1
+   0006                     260 _led_p::
+   0006                     261 	.ds 1
+   0007                     262 _led_b::
+   0007                     263 	.ds 1
+   0008                     264 _temp_b::
+   0008                     265 	.ds 1
+   0009                     266 _temp_p::
+   0009                     267 	.ds 1
+   000A                     268 _T0counter::
+   000A                     269 	.ds 2
+   000C                     270 _wyswietlacze::
+   000C                     271 	.ds 6
+                            272 ;--------------------------------------------------------
+                            273 ; overlayable items in internal ram 
+                            274 ;--------------------------------------------------------
+                            275 	.area	OSEG    (OVR,DATA)
+                            276 ;--------------------------------------------------------
+                            277 ; Stack segment in internal ram 
+                            278 ;--------------------------------------------------------
+                            279 	.area	SSEG	(DATA)
+   0000                     280 __start__stack:
+   0000                     281 	.ds	1
+                            282 
+                            283 ;--------------------------------------------------------
+                            284 ; indirectly addressable internal ram data
+                            285 ;--------------------------------------------------------
+                            286 	.area ISEG    (DATA)
+                            287 ;--------------------------------------------------------
+                            288 ; absolute internal ram data
+                            289 ;--------------------------------------------------------
+                            290 	.area IABS    (ABS,DATA)
+                            291 	.area IABS    (ABS,DATA)
+                            292 ;--------------------------------------------------------
+                            293 ; bit data
+                            294 ;--------------------------------------------------------
+                            295 	.area BSEG    (BIT)
+                    0097    296 _LED	=	0x0097
+   0000                     297 _rec_flag::
+   0000                     298 	.ds 1
+   0001                     299 _send_flag::
+   0001                     300 	.ds 1
+   0002                     301 _t0_flag::
+   0002                     302 	.ds 1
+                    0096    303 _SEG_OFF	=	0x0096
+   0003                     304 _INTERRUPT_FLAG::
+   0003                     305 	.ds 1
+   0004                     306 _edit_mode::
+   0004                     307 	.ds 1
+                            308 ;--------------------------------------------------------
+                            309 ; paged external ram data
+                            310 ;--------------------------------------------------------
+                            311 	.area PSEG    (PAG,XDATA)
+                            312 ;--------------------------------------------------------
+                            313 ; external ram data
+                            314 ;--------------------------------------------------------
+                            315 	.area XSEG    (XDATA)
+                            316 ;--------------------------------------------------------
+                            317 ; absolute external ram data
+                            318 ;--------------------------------------------------------
+                            319 	.area XABS    (ABS,XDATA)
+                            320 ;--------------------------------------------------------
+                            321 ; external initialized ram data
+                            322 ;--------------------------------------------------------
+                            323 	.area XISEG   (XDATA)
+                            324 	.area HOME    (CODE)
+                            325 	.area GSINIT0 (CODE)
+                            326 	.area GSINIT1 (CODE)
+                            327 	.area GSINIT2 (CODE)
+                            328 	.area GSINIT3 (CODE)
+                            329 	.area GSINIT4 (CODE)
+                            330 	.area GSINIT5 (CODE)
+                            331 	.area GSINIT  (CODE)
+                            332 	.area GSFINAL (CODE)
+                            333 	.area CSEG    (CODE)
+                            334 ;--------------------------------------------------------
+                            335 ; interrupt vector 
+                            336 ;--------------------------------------------------------
+                            337 	.area HOME    (CODE)
+   0000                     338 __interrupt_vect:
+   0000 02s00r00            339 	ljmp	__sdcc_gsinit_startup
+   0003 32                  340 	reti
+   0004                     341 	.ds	7
+   000B 02s00r88            342 	ljmp	_timer0_isr
+                            343 ;--------------------------------------------------------
+                            344 ; global & static initialisations
+                            345 ;--------------------------------------------------------
+                            346 	.area HOME    (CODE)
+                            347 	.area GSINIT  (CODE)
+                            348 	.area GSFINAL (CODE)
+                            349 	.area GSINIT  (CODE)
+                            350 	.globl __sdcc_gsinit_startup
+                            351 	.globl __sdcc_program_startup
+                            352 	.globl __start__stack
+                            353 	.globl __mcs51_genXINIT
+                            354 	.globl __mcs51_genXRAMCLEAR
+                            355 	.globl __mcs51_genRAMCLEAR
+                            356 ;	zegarek.c:28: __xdata unsigned char * led_wyb = (__xdata unsigned char *) 0xFF30;
+   0000 75*00 30            357 	mov	_led_wyb,#0x30
+   0003 75*01 FF            358 	mov	(_led_wyb + 1),#0xFF
+                            359 ;	zegarek.c:29: __xdata unsigned char * led_led = (__xdata unsigned char *) 0xFF38;
+   0006 75*02 38            360 	mov	_led_led,#0x38
+   0009 75*03 FF            361 	mov	(_led_led + 1),#0xFF
+                            362 ;	zegarek.c:33: int T0counter = 0;
+   000C E4                  363 	clr	a
+   000D F5*0A               364 	mov	_T0counter,a
+   000F F5*0B               365 	mov	(_T0counter + 1),a
+                            366 ;	zegarek.c:37: unsigned char wyswietlacze[6] = {0,0,0,0,0,0};
+   0011 75*0C 00            367 	mov	_wyswietlacze,#0x00
+   0014 75*0D 00            368 	mov	(_wyswietlacze + 0x0001),#0x00
+   0017 75*0E 00            369 	mov	(_wyswietlacze + 0x0002),#0x00
+   001A 75*0F 00            370 	mov	(_wyswietlacze + 0x0003),#0x00
+   001D 75*10 00            371 	mov	(_wyswietlacze + 0x0004),#0x00
+   0020 75*11 00            372 	mov	(_wyswietlacze + 0x0005),#0x00
+                            373 ;	zegarek.c:26: __bit INTERRUPT_FLAG=FALSE;
+   0023 C2*03               374 	clr	_INTERRUPT_FLAG
+                            375 ;	zegarek.c:27: __bit edit_mode=FALSE;
+   0025 C2*04               376 	clr	_edit_mode
+                            377 	.area GSFINAL (CODE)
+   0000 02s00r0E            378 	ljmp	__sdcc_program_startup
+                            379 ;--------------------------------------------------------
+                            380 ; Home
+                            381 ;--------------------------------------------------------
+                            382 	.area HOME    (CODE)
+                            383 	.area HOME    (CODE)
+   000E                     384 __sdcc_program_startup:
+   000E 12s03r84            385 	lcall	_main
+                            386 ;	return from main will lock up
+   0011 80 FE               387 	sjmp .
+                            388 ;--------------------------------------------------------
+                            389 ; code
+                            390 ;--------------------------------------------------------
+                            391 	.area CSEG    (CODE)
+                            392 ;------------------------------------------------------------
+                            393 ;Allocation info for local variables in function 'incTime'
+                            394 ;------------------------------------------------------------
+                            395 ;i                         Allocated to registers r3 r4 
+                            396 ;------------------------------------------------------------
+                            397 ;	zegarek.c:38: void incTime(void) {
+                            398 ;	-----------------------------------------
+                            399 ;	 function incTime
+                            400 ;	-----------------------------------------
+   0000                     401 _incTime:
+                    0002    402 	ar2 = 0x02
+                    0003    403 	ar3 = 0x03
+                    0004    404 	ar4 = 0x04
+                    0005    405 	ar5 = 0x05
+                    0006    406 	ar6 = 0x06
+                    0007    407 	ar7 = 0x07
+                    0000    408 	ar0 = 0x00
+                    0001    409 	ar1 = 0x01
+                            410 ;	zegarek.c:40: if(wyswietlacze[5] == 2 && wyswietlacze[4] == 3 && wyswietlacze[3] == 5 && wyswietlacze[2] == 9 && wyswietlacze[1] == 5 && wyswietlacze[0] == 9) {
+   0000 AA*11               411 	mov	r2,(_wyswietlacze + 0x0005)
+   0002 BA 02 35            412 	cjne	r2,#0x02,00112$
+   0005 74 03               413 	mov	a,#0x03
+   0007 B5*10 30            414 	cjne	a,(_wyswietlacze + 0x0004),00112$
+   000A 74 05               415 	mov	a,#0x05
+   000C B5*0F 2B            416 	cjne	a,(_wyswietlacze + 0x0003),00112$
+   000F 74 09               417 	mov	a,#0x09
+   0011 B5*0E 26            418 	cjne	a,(_wyswietlacze + 0x0002),00112$
+   0014 74 05               419 	mov	a,#0x05
+   0016 B5*0D 21            420 	cjne	a,(_wyswietlacze + 0x0001),00112$
+   0019 74 09               421 	mov	a,#0x09
+   001B B5*0C 1C            422 	cjne	a,_wyswietlacze,00112$
+                            423 ;	zegarek.c:41: for(i = 0; i < 6; i++) {
+   001E 7B 00               424 	mov	r3,#0x00
+   0020 7C 00               425 	mov	r4,#0x00
+   0022                     426 00119$:
+   0022 C3                  427 	clr	c
+   0023 EB                  428 	mov	a,r3
+   0024 94 06               429 	subb	a,#0x06
+   0026 EC                  430 	mov	a,r4
+   0027 64 80               431 	xrl	a,#0x80
+   0029 94 80               432 	subb	a,#0x80
+   002B 50 5A               433 	jnc	00123$
+                            434 ;	zegarek.c:42: `wyswietlacze[i] = 0;
+   002D EB                  435 	mov	a,r3
+   002E 24r0C               436 	add	a,#_wyswietlacze
+   0030 F8                  437 	mov	r0,a
+   0031 76 00               438 	mov	@r0,#0x00
+                            439 ;	zegarek.c:41: for(i = 0; i < 6; i++) {
+   0033 0B                  440 	inc	r3
+   0034 BB 00 EB            441 	cjne	r3,#0x00,00119$
+   0037 0C                  442 	inc	r4
+   0038 80 E8               443 	sjmp	00119$
+   003A                     444 00112$:
+                            445 ;	zegarek.c:46: wyswietlacze[0]++;
+   003A AB*0C               446 	mov	r3,_wyswietlacze
+   003C 0B                  447 	inc	r3
+   003D 8B*0C               448 	mov	_wyswietlacze,r3
+                            449 ;	zegarek.c:47: if(wyswietlacze[0] >= 10) {
+   003F BB 0A 00            450 	cjne	r3,#0x0A,00152$
+   0042                     451 00152$:
+   0042 40 09               452 	jc	00102$
+                            453 ;	zegarek.c:48: wyswietlacze[0] = 0;
+   0044 75*0C 00            454 	mov	_wyswietlacze,#0x00
+                            455 ;	zegarek.c:49: wyswietlacze[1]++;
+   0047 E5*0D               456 	mov	a,(_wyswietlacze + 0x0001)
+   0049 FB                  457 	mov	r3,a
+   004A 04                  458 	inc	a
+   004B F5*0D               459 	mov	(_wyswietlacze + 0x0001),a
+   004D                     460 00102$:
+                            461 ;	zegarek.c:51: if(wyswietlacze[1] >= 6) {
+   004D 74 FA               462 	mov	a,#0x100 - 0x06
+   004F 25*0D               463 	add	a,(_wyswietlacze + 0x0001)
+   0051 50 09               464 	jnc	00104$
+                            465 ;	zegarek.c:52: wyswietlacze[2]++;
+   0053 E5*0E               466 	mov	a,(_wyswietlacze + 0x0002)
+   0055 FB                  467 	mov	r3,a
+   0056 04                  468 	inc	a
+   0057 F5*0E               469 	mov	(_wyswietlacze + 0x0002),a
+                            470 ;	zegarek.c:53: wyswietlacze[1] = 0;
+   0059 75*0D 00            471 	mov	(_wyswietlacze + 0x0001),#0x00
+   005C                     472 00104$:
+                            473 ;	zegarek.c:55: if(wyswietlacze[2] >= 10) {
+   005C 74 F6               474 	mov	a,#0x100 - 0x0A
+   005E 25*0E               475 	add	a,(_wyswietlacze + 0x0002)
+   0060 50 09               476 	jnc	00106$
+                            477 ;	zegarek.c:56: wyswietlacze[2] = 0;
+   0062 75*0E 00            478 	mov	(_wyswietlacze + 0x0002),#0x00
+                            479 ;	zegarek.c:57: wyswietlacze[3]++;
+   0065 E5*0F               480 	mov	a,(_wyswietlacze + 0x0003)
+   0067 FB                  481 	mov	r3,a
+   0068 04                  482 	inc	a
+   0069 F5*0F               483 	mov	(_wyswietlacze + 0x0003),a
+   006B                     484 00106$:
+                            485 ;	zegarek.c:59: if(wyswietlacze[3] >= 6) {
+   006B 74 FA               486 	mov	a,#0x100 - 0x06
+   006D 25*0F               487 	add	a,(_wyswietlacze + 0x0003)
+   006F 50 09               488 	jnc	00108$
+                            489 ;	zegarek.c:60: wyswietlacze[3] = 0;
+   0071 75*0F 00            490 	mov	(_wyswietlacze + 0x0003),#0x00
+                            491 ;	zegarek.c:61: wyswietlacze[4]++;
+   0074 E5*10               492 	mov	a,(_wyswietlacze + 0x0004)
+   0076 FB                  493 	mov	r3,a
+   0077 04                  494 	inc	a
+   0078 F5*10               495 	mov	(_wyswietlacze + 0x0004),a
+   007A                     496 00108$:
+                            497 ;	zegarek.c:63: if(wyswietlacze[4] >= 10) {
+   007A 74 F6               498 	mov	a,#0x100 - 0x0A
+   007C 25*10               499 	add	a,(_wyswietlacze + 0x0004)
+   007E 50 07               500 	jnc	00123$
+                            501 ;	zegarek.c:64: wyswietlacze[4] = 0;
+   0080 75*10 00            502 	mov	(_wyswietlacze + 0x0004),#0x00
+                            503 ;	zegarek.c:65: wyswietlacze[5]++;
+   0083 EA                  504 	mov	a,r2
+   0084 04                  505 	inc	a
+   0085 F5*11               506 	mov	(_wyswietlacze + 0x0005),a
+   0087                     507 00123$:
+   0087 22                  508 	ret
+                            509 ;------------------------------------------------------------
+                            510 ;Allocation info for local variables in function 'timer0_isr'
+                            511 ;------------------------------------------------------------
+                            512 ;------------------------------------------------------------
+                            513 ;	zegarek.c:69: void timer0_isr(void) __interrupt(1) {
+                            514 ;	-----------------------------------------
+                            515 ;	 function timer0_isr
+                            516 ;	-----------------------------------------
+   0088                     517 _timer0_isr:
+                            518 ;	zegarek.c:70: TH0 = TH_0;
+   0088 75 8C FC            519 	mov	_TH0,#0xFC
+                            520 ;	zegarek.c:71: TL0 = TL_0;
+   008B 75 8A 66            521 	mov	_TL0,#0x66
+                            522 ;	zegarek.c:72: INTERRUPT_FLAG = TRUE;
+   008E D2*03               523 	setb	_INTERRUPT_FLAG
+   0090 32                  524 	reti
+                            525 ;	eliminated unneeded push/pop psw
+                            526 ;	eliminated unneeded push/pop dpl
+                            527 ;	eliminated unneeded push/pop dph
+                            528 ;	eliminated unneeded push/pop b
+                            529 ;	eliminated unneeded push/pop acc
+                            530 ;------------------------------------------------------------
+                            531 ;Allocation info for local variables in function 'init_interrupts'
+                            532 ;------------------------------------------------------------
+                            533 ;------------------------------------------------------------
+                            534 ;	zegarek.c:74: void init_interrupts(void) {
+                            535 ;	-----------------------------------------
+                            536 ;	 function init_interrupts
+                            537 ;	-----------------------------------------
+   0091                     538 _init_interrupts:
+                            539 ;	zegarek.c:75: EA = TRUE;
+   0091 D2 AF               540 	setb	_EA
+                            541 ;	zegarek.c:76: ET0 = TRUE;
+   0093 D2 A9               542 	setb	_ET0
+                            543 ;	zegarek.c:77: TMOD = 0b00000001;
+   0095 75 89 01            544 	mov	_TMOD,#0x01
+                            545 ;	zegarek.c:78: TH0 = TH_0;
+   0098 75 8C FC            546 	mov	_TH0,#0xFC
+                            547 ;	zegarek.c:79: TL0 = TL_0;
+   009B 75 8A 66            548 	mov	_TL0,#0x66
+                            549 ;	zegarek.c:80: TR0 = TRUE;
+   009E D2 8C               550 	setb	_TR0
+   00A0 22                  551 	ret
+                            552 ;------------------------------------------------------------
+                            553 ;Allocation info for local variables in function 'inc_sec'
+                            554 ;------------------------------------------------------------
+                            555 ;------------------------------------------------------------
+                            556 ;	zegarek.c:82: void inc_sec(void) {
+                            557 ;	-----------------------------------------
+                            558 ;	 function inc_sec
+                            559 ;	-----------------------------------------
+   00A1                     560 _inc_sec:
+                            561 ;	zegarek.c:83: wyswietlacze[0]++;
+   00A1 AA*0C               562 	mov	r2,_wyswietlacze
+   00A3 0A                  563 	inc	r2
+   00A4 8A*0C               564 	mov	_wyswietlacze,r2
+                            565 ;	zegarek.c:84: if(wyswietlacze[0] == 20) {
+   00A6 BA 14 41            566 	cjne	r2,#0x14,00105$
+                            567 ;	zegarek.c:85: wyswietlacze[0] = 10;
+   00A9 75*0C 0A            568 	mov	_wyswietlacze,#0x0A
+                            569 ;	zegarek.c:86: wyswietlacze[1]++;
+   00AC AA*0D               570 	mov	r2,(_wyswietlacze + 0x0001)
+   00AE 0A                  571 	inc	r2
+   00AF 8A*0D               572 	mov	(_wyswietlacze + 0x0001),r2
+                            573 ;	zegarek.c:87: if((wyswietlacze[1]-10)*10 + (wyswietlacze[0]-10) >= 60) {
+   00B1 7B 00               574 	mov	r3,#0x00
+   00B3 EA                  575 	mov	a,r2
+   00B4 24 F6               576 	add	a,#0xf6
+   00B6 F5*00               577 	mov	__mulint_PARM_2,a
+   00B8 EB                  578 	mov	a,r3
+   00B9 34 FF               579 	addc	a,#0xff
+   00BB F5*01               580 	mov	(__mulint_PARM_2 + 1),a
+   00BD 90 00 0A            581 	mov	dptr,#0x000A
+   00C0 12s00r00            582 	lcall	__mulint
+   00C3 AA 82               583 	mov	r2,dpl
+   00C5 AB 83               584 	mov	r3,dph
+   00C7 AC*0C               585 	mov	r4,_wyswietlacze
+   00C9 7D 00               586 	mov	r5,#0x00
+   00CB EC                  587 	mov	a,r4
+   00CC 24 F6               588 	add	a,#0xf6
+   00CE FC                  589 	mov	r4,a
+   00CF ED                  590 	mov	a,r5
+   00D0 34 FF               591 	addc	a,#0xff
+   00D2 FD                  592 	mov	r5,a
+   00D3 EC                  593 	mov	a,r4
+   00D4 2A                  594 	add	a,r2
+   00D5 FA                  595 	mov	r2,a
+   00D6 ED                  596 	mov	a,r5
+   00D7 3B                  597 	addc	a,r3
+   00D8 FB                  598 	mov	r3,a
+   00D9 C3                  599 	clr	c
+   00DA EA                  600 	mov	a,r2
+   00DB 94 3C               601 	subb	a,#0x3C
+   00DD EB                  602 	mov	a,r3
+   00DE 64 80               603 	xrl	a,#0x80
+   00E0 94 80               604 	subb	a,#0x80
+   00E2 40 06               605 	jc	00105$
+                            606 ;	zegarek.c:88: wyswietlacze[0] = 10;
+   00E4 75*0C 0A            607 	mov	_wyswietlacze,#0x0A
+                            608 ;	zegarek.c:89: wyswietlacze[1] = 10;
+   00E7 75*0D 0A            609 	mov	(_wyswietlacze + 0x0001),#0x0A
+   00EA                     610 00105$:
+   00EA 22                  611 	ret
+                            612 ;------------------------------------------------------------
+                            613 ;Allocation info for local variables in function 'dec_sec'
+                            614 ;------------------------------------------------------------
+                            615 ;------------------------------------------------------------
+                            616 ;	zegarek.c:93: void dec_sec(void) {
+                            617 ;	-----------------------------------------
+                            618 ;	 function dec_sec
+                            619 ;	-----------------------------------------
+   00EB                     620 _dec_sec:
+                            621 ;	zegarek.c:94: if(wyswietlacze[0] == 10) {
+   00EB AA*0C               622 	mov	r2,_wyswietlacze
+   00ED BA 0A 11            623 	cjne	r2,#0x0A,00105$
+                            624 ;	zegarek.c:95: wyswietlacze[0] = 19;
+   00F0 75*0C 13            625 	mov	_wyswietlacze,#0x13
+                            626 ;	zegarek.c:96: if(wyswietlacze[1] == 10) {
+   00F3 AB*0D               627 	mov	r3,(_wyswietlacze + 0x0001)
+   00F5 BB 0A 04            628 	cjne	r3,#0x0A,00102$
+                            629 ;	zegarek.c:97: wyswietlacze[1] = 15;
+   00F8 75*0D 0F            630 	mov	(_wyswietlacze + 0x0001),#0x0F
+   00FB 22                  631 	ret
+   00FC                     632 00102$:
+                            633 ;	zegarek.c:100: wyswietlacze[1]--;
+   00FC EB                  634 	mov	a,r3
+   00FD 14                  635 	dec	a
+   00FE F5*0D               636 	mov	(_wyswietlacze + 0x0001),a
+   0100 22                  637 	ret
+   0101                     638 00105$:
+                            639 ;	zegarek.c:104: wyswietlacze[0]--;
+   0101 EA                  640 	mov	a,r2
+   0102 14                  641 	dec	a
+   0103 F5*0C               642 	mov	_wyswietlacze,a
+   0105 22                  643 	ret
+                            644 ;------------------------------------------------------------
+                            645 ;Allocation info for local variables in function 'inc_min'
+                            646 ;------------------------------------------------------------
+                            647 ;------------------------------------------------------------
+                            648 ;	zegarek.c:107: void inc_min(void) {
+                            649 ;	-----------------------------------------
+                            650 ;	 function inc_min
+                            651 ;	-----------------------------------------
+   0106                     652 _inc_min:
+                            653 ;	zegarek.c:108: wyswietlacze[2]++;
+   0106 AA*0E               654 	mov	r2,(_wyswietlacze + 0x0002)
+   0108 0A                  655 	inc	r2
+   0109 8A*0E               656 	mov	(_wyswietlacze + 0x0002),r2
+                            657 ;	zegarek.c:109: if(wyswietlacze[2] == 20) {
+   010B BA 14 41            658 	cjne	r2,#0x14,00105$
+                            659 ;	zegarek.c:110: wyswietlacze[2] = 10;
+   010E 75*0E 0A            660 	mov	(_wyswietlacze + 0x0002),#0x0A
+                            661 ;	zegarek.c:111: wyswietlacze[3]++;
+   0111 AA*0F               662 	mov	r2,(_wyswietlacze + 0x0003)
+   0113 0A                  663 	inc	r2
+   0114 8A*0F               664 	mov	(_wyswietlacze + 0x0003),r2
+                            665 ;	zegarek.c:112: if((wyswietlacze[3]-10)*10 + (wyswietlacze[2]-10) >= 60) {
+   0116 7B 00               666 	mov	r3,#0x00
+   0118 EA                  667 	mov	a,r2
+   0119 24 F6               668 	add	a,#0xf6
+   011B F5*00               669 	mov	__mulint_PARM_2,a
+   011D EB                  670 	mov	a,r3
+   011E 34 FF               671 	addc	a,#0xff
+   0120 F5*01               672 	mov	(__mulint_PARM_2 + 1),a
+   0122 90 00 0A            673 	mov	dptr,#0x000A
+   0125 12s00r00            674 	lcall	__mulint
+   0128 AA 82               675 	mov	r2,dpl
+   012A AB 83               676 	mov	r3,dph
+   012C AC*0E               677 	mov	r4,(_wyswietlacze + 0x0002)
+   012E 7D 00               678 	mov	r5,#0x00
+   0130 EC                  679 	mov	a,r4
+   0131 24 F6               680 	add	a,#0xf6
+   0133 FC                  681 	mov	r4,a
+   0134 ED                  682 	mov	a,r5
+   0135 34 FF               683 	addc	a,#0xff
+   0137 FD                  684 	mov	r5,a
+   0138 EC                  685 	mov	a,r4
+   0139 2A                  686 	add	a,r2
+   013A FA                  687 	mov	r2,a
+   013B ED                  688 	mov	a,r5
+   013C 3B                  689 	addc	a,r3
+   013D FB                  690 	mov	r3,a
+   013E C3                  691 	clr	c
+   013F EA                  692 	mov	a,r2
+   0140 94 3C               693 	subb	a,#0x3C
+   0142 EB                  694 	mov	a,r3
+   0143 64 80               695 	xrl	a,#0x80
+   0145 94 80               696 	subb	a,#0x80
+   0147 40 06               697 	jc	00105$
+                            698 ;	zegarek.c:113: wyswietlacze[2] = 10;
+   0149 75*0E 0A            699 	mov	(_wyswietlacze + 0x0002),#0x0A
+                            700 ;	zegarek.c:114: wyswietlacze[3] = 10;
+   014C 75*0F 0A            701 	mov	(_wyswietlacze + 0x0003),#0x0A
+   014F                     702 00105$:
+   014F 22                  703 	ret
+                            704 ;------------------------------------------------------------
+                            705 ;Allocation info for local variables in function 'dec_min'
+                            706 ;------------------------------------------------------------
+                            707 ;------------------------------------------------------------
+                            708 ;	zegarek.c:118: void dec_min(void) {
+                            709 ;	-----------------------------------------
+                            710 ;	 function dec_min
+                            711 ;	-----------------------------------------
+   0150                     712 _dec_min:
+                            713 ;	zegarek.c:119: if(wyswietlacze[2] == 10) {
+   0150 AA*0E               714 	mov	r2,(_wyswietlacze + 0x0002)
+   0152 BA 0A 11            715 	cjne	r2,#0x0A,00105$
+                            716 ;	zegarek.c:120: wyswietlacze[2] = 19;
+   0155 75*0E 13            717 	mov	(_wyswietlacze + 0x0002),#0x13
+                            718 ;	zegarek.c:121: if(wyswietlacze[3] == 10) {
+   0158 AB*0F               719 	mov	r3,(_wyswietlacze + 0x0003)
+   015A BB 0A 04            720 	cjne	r3,#0x0A,00102$
+                            721 ;	zegarek.c:122: wyswietlacze[3] = 15;
+   015D 75*0F 0F            722 	mov	(_wyswietlacze + 0x0003),#0x0F
+   0160 22                  723 	ret
+   0161                     724 00102$:
+                            725 ;	zegarek.c:125: wyswietlacze[3]--;
+   0161 EB                  726 	mov	a,r3
+   0162 14                  727 	dec	a
+   0163 F5*0F               728 	mov	(_wyswietlacze + 0x0003),a
+   0165 22                  729 	ret
+   0166                     730 00105$:
+                            731 ;	zegarek.c:129: wyswietlacze[2]--;
+   0166 EA                  732 	mov	a,r2
+   0167 14                  733 	dec	a
+   0168 F5*0E               734 	mov	(_wyswietlacze + 0x0002),a
+   016A 22                  735 	ret
+                            736 ;------------------------------------------------------------
+                            737 ;Allocation info for local variables in function 'inc_hour'
+                            738 ;------------------------------------------------------------
+                            739 ;------------------------------------------------------------
+                            740 ;	zegarek.c:132: void inc_hour(void) {
+                            741 ;	-----------------------------------------
+                            742 ;	 function inc_hour
+                            743 ;	-----------------------------------------
+   016B                     744 _inc_hour:
+                            745 ;	zegarek.c:133: wyswietlacze[4]++;
+   016B AA*10               746 	mov	r2,(_wyswietlacze + 0x0004)
+   016D 0A                  747 	inc	r2
+   016E 8A*10               748 	mov	(_wyswietlacze + 0x0004),r2
+                            749 ;	zegarek.c:134: if(wyswietlacze[4] == 20) {
+   0170 BA 14 09            750 	cjne	r2,#0x14,00102$
+                            751 ;	zegarek.c:135: wyswietlacze[4] = 10;
+   0173 75*10 0A            752 	mov	(_wyswietlacze + 0x0004),#0x0A
+                            753 ;	zegarek.c:136: wyswietlacze[5]++;
+   0176 E5*11               754 	mov	a,(_wyswietlacze + 0x0005)
+   0178 FA                  755 	mov	r2,a
+   0179 04                  756 	inc	a
+   017A F5*11               757 	mov	(_wyswietlacze + 0x0005),a
+   017C                     758 00102$:
+                            759 ;	zegarek.c:139: if((wyswietlacze[5]-10)*10 + (wyswietlacze[4]-10) >= 24) {
+   017C AA*11               760 	mov	r2,(_wyswietlacze + 0x0005)
+   017E 7B 00               761 	mov	r3,#0x00
+   0180 EA                  762 	mov	a,r2
+   0181 24 F6               763 	add	a,#0xf6
+   0183 F5*00               764 	mov	__mulint_PARM_2,a
+   0185 EB                  765 	mov	a,r3
+   0186 34 FF               766 	addc	a,#0xff
+   0188 F5*01               767 	mov	(__mulint_PARM_2 + 1),a
+   018A 90 00 0A            768 	mov	dptr,#0x000A
+   018D 12s00r00            769 	lcall	__mulint
+   0190 AA 82               770 	mov	r2,dpl
+   0192 AB 83               771 	mov	r3,dph
+   0194 AC*10               772 	mov	r4,(_wyswietlacze + 0x0004)
+   0196 7D 00               773 	mov	r5,#0x00
+   0198 EC                  774 	mov	a,r4
+   0199 24 F6               775 	add	a,#0xf6
+   019B FC                  776 	mov	r4,a
+   019C ED                  777 	mov	a,r5
+   019D 34 FF               778 	addc	a,#0xff
+   019F FD                  779 	mov	r5,a
+   01A0 EC                  780 	mov	a,r4
+   01A1 2A                  781 	add	a,r2
+   01A2 FA                  782 	mov	r2,a
+   01A3 ED                  783 	mov	a,r5
+   01A4 3B                  784 	addc	a,r3
+   01A5 FB                  785 	mov	r3,a
+   01A6 C3                  786 	clr	c
+   01A7 EA                  787 	mov	a,r2
+   01A8 94 18               788 	subb	a,#0x18
+   01AA EB                  789 	mov	a,r3
+   01AB 64 80               790 	xrl	a,#0x80
+   01AD 94 80               791 	subb	a,#0x80
+   01AF 40 06               792 	jc	00105$
+                            793 ;	zegarek.c:140: wyswietlacze[4] = 10;
+   01B1 75*10 0A            794 	mov	(_wyswietlacze + 0x0004),#0x0A
+                            795 ;	zegarek.c:141: wyswietlacze[5] = 10;
+   01B4 75*11 0A            796 	mov	(_wyswietlacze + 0x0005),#0x0A
+   01B7                     797 00105$:
+   01B7 22                  798 	ret
+                            799 ;------------------------------------------------------------
+                            800 ;Allocation info for local variables in function 'dec_hour'
+                            801 ;------------------------------------------------------------
+                            802 ;------------------------------------------------------------
+                            803 ;	zegarek.c:145: void dec_hour(void) {
+                            804 ;	-----------------------------------------
+                            805 ;	 function dec_hour
+                            806 ;	-----------------------------------------
+   01B8                     807 _dec_hour:
+                            808 ;	zegarek.c:146: if(wyswietlacze[4] == 10) {
+   01B8 AA*10               809 	mov	r2,(_wyswietlacze + 0x0004)
+   01BA BA 0A 14            810 	cjne	r2,#0x0A,00105$
+                            811 ;	zegarek.c:147: wyswietlacze[4] = 19;
+   01BD 75*10 13            812 	mov	(_wyswietlacze + 0x0004),#0x13
+                            813 ;	zegarek.c:148: if(wyswietlacze[5] == 10) {
+   01C0 AB*11               814 	mov	r3,(_wyswietlacze + 0x0005)
+   01C2 BB 0A 07            815 	cjne	r3,#0x0A,00102$
+                            816 ;	zegarek.c:149: wyswietlacze[5] = 12;
+   01C5 75*11 0C            817 	mov	(_wyswietlacze + 0x0005),#0x0C
+                            818 ;	zegarek.c:150: wyswietlacze[4] = 13;
+   01C8 75*10 0D            819 	mov	(_wyswietlacze + 0x0004),#0x0D
+   01CB 22                  820 	ret
+   01CC                     821 00102$:
+                            822 ;	zegarek.c:153: wyswietlacze[5]--;
+   01CC EB                  823 	mov	a,r3
+   01CD 14                  824 	dec	a
+   01CE F5*11               825 	mov	(_wyswietlacze + 0x0005),a
+   01D0 22                  826 	ret
+   01D1                     827 00105$:
+                            828 ;	zegarek.c:157: wyswietlacze[4]--;
+   01D1 EA                  829 	mov	a,r2
+   01D2 14                  830 	dec	a
+   01D3 F5*10               831 	mov	(_wyswietlacze + 0x0004),a
+   01D5 22                  832 	ret
+                            833 ;------------------------------------------------------------
+                            834 ;Allocation info for local variables in function 'keyboard'
+                            835 ;------------------------------------------------------------
+                            836 ;------------------------------------------------------------
+                            837 ;	zegarek.c:160: void keyboard(void) {
+                            838 ;	-----------------------------------------
+                            839 ;	 function keyboard
+                            840 ;	-----------------------------------------
+   01D6                     841 _keyboard:
+                            842 ;	zegarek.c:161: kbd = kbdBefore;
+   01D6 85*05*04            843 	mov	_kbd,_kbdBefore
+                            844 ;	zegarek.c:162: if(kbd == 0b00000001) { //enter
+   01D9 74 01               845 	mov	a,#0x01
+   01DB B5*04 52            846 	cjne	a,_kbd,00115$
+                            847 ;	zegarek.c:163: if(edit_mode == 1) {
+                            848 ;	zegarek.c:164: edit_mode = 0;
+   01DE 10*04 02            849 	jbc	_edit_mode,00181$
+   01E1 80 3B               850 	sjmp	00112$
+   01E3                     851 00181$:
+                            852 ;	zegarek.c:165: if(temp_p == 0) {
+   01E3 E5*09               853 	mov	a,_temp_p
+   01E5 70 0E               854 	jnz	00107$
+                            855 ;	zegarek.c:166: wyswietlacze[0] -= 10;
+   01E7 E5*0C               856 	mov	a,_wyswietlacze
+   01E9 24 F6               857 	add	a,#0xf6
+   01EB F5*0C               858 	mov	_wyswietlacze,a
+                            859 ;	zegarek.c:167: wyswietlacze[1] -= 10;
+   01ED E5*0D               860 	mov	a,(_wyswietlacze + 0x0001)
+   01EF 24 F6               861 	add	a,#0xf6
+   01F1 F5*0D               862 	mov	(_wyswietlacze + 0x0001),a
+   01F3 80 24               863 	sjmp	00108$
+   01F5                     864 00107$:
+                            865 ;	zegarek.c:169: else if(temp_p == 1) {
+   01F5 74 01               866 	mov	a,#0x01
+   01F7 B5*09 0E            867 	cjne	a,_temp_p,00104$
+                            868 ;	zegarek.c:170: wyswietlacze[2] -= 10;
+   01FA E5*0E               869 	mov	a,(_wyswietlacze + 0x0002)
+   01FC 24 F6               870 	add	a,#0xf6
+   01FE F5*0E               871 	mov	(_wyswietlacze + 0x0002),a
+                            872 ;	zegarek.c:171: wyswietlacze[3] -= 10;
+   0200 E5*0F               873 	mov	a,(_wyswietlacze + 0x0003)
+   0202 24 F6               874 	add	a,#0xf6
+   0204 F5*0F               875 	mov	(_wyswietlacze + 0x0003),a
+   0206 80 11               876 	sjmp	00108$
+   0208                     877 00104$:
+                            878 ;	zegarek.c:173: else if(temp_p == 2) {
+   0208 74 02               879 	mov	a,#0x02
+   020A B5*09 0C            880 	cjne	a,_temp_p,00108$
+                            881 ;	zegarek.c:174: wyswietlacze[4] -= 10;
+   020D E5*10               882 	mov	a,(_wyswietlacze + 0x0004)
+   020F 24 F6               883 	add	a,#0xf6
+   0211 F5*10               884 	mov	(_wyswietlacze + 0x0004),a
+                            885 ;	zegarek.c:175: wyswietlacze[5] -= 10;
+   0213 E5*11               886 	mov	a,(_wyswietlacze + 0x0005)
+   0215 24 F6               887 	add	a,#0xf6
+   0217 F5*11               888 	mov	(_wyswietlacze + 0x0005),a
+   0219                     889 00108$:
+                            890 ;	zegarek.c:177: temp_p = 0;
+   0219 75*09 00            891 	mov	_temp_p,#0x00
+   021C 80 12               892 	sjmp	00115$
+   021E                     893 00112$:
+                            894 ;	zegarek.c:179: else if(!edit_mode) {
+   021E 20*04 0F            895 	jb	_edit_mode,00115$
+                            896 ;	zegarek.c:180: enter_edit_mode();
+   0221 12s03r3A            897 	lcall	_enter_edit_mode
+                            898 ;	zegarek.c:181: wyswietlacze[0] += 10;
+   0224 74 0A               899 	mov	a,#0x0A
+   0226 25*0C               900 	add	a,_wyswietlacze
+   0228 F5*0C               901 	mov	_wyswietlacze,a
+                            902 ;	zegarek.c:182: wyswietlacze[1] += 10;
+   022A 74 0A               903 	mov	a,#0x0A
+   022C 25*0D               904 	add	a,(_wyswietlacze + 0x0001)
+   022E F5*0D               905 	mov	(_wyswietlacze + 0x0001),a
+   0230                     906 00115$:
+                            907 ;	zegarek.c:186: if(edit_mode) {
+   0230 20*04 01            908 	jb	_edit_mode,00188$
+   0233 22                  909 	ret
+   0234                     910 00188$:
+                            911 ;	zegarek.c:187: if(kbd == 0b00000100) { //strza³ka w prawo
+   0234 74 04               912 	mov	a,#0x04
+   0236 B5*04 5E            913 	cjne	a,_kbd,00123$
+                            914 ;	zegarek.c:188: if(temp_p == 0) {
+   0239 E5*09               915 	mov	a,_temp_p
+   023B 70 1D               916 	jnz	00120$
+                            917 ;	zegarek.c:189: temp_p = 2;
+   023D 75*09 02            918 	mov	_temp_p,#0x02
+                            919 ;	zegarek.c:190: wyswietlacze[0] -= 10;
+   0240 E5*0C               920 	mov	a,_wyswietlacze
+   0242 24 F6               921 	add	a,#0xf6
+   0244 F5*0C               922 	mov	_wyswietlacze,a
+                            923 ;	zegarek.c:191: wyswietlacze[1] -= 10;
+   0246 E5*0D               924 	mov	a,(_wyswietlacze + 0x0001)
+   0248 24 F6               925 	add	a,#0xf6
+   024A F5*0D               926 	mov	(_wyswietlacze + 0x0001),a
+                            927 ;	zegarek.c:192: wyswietlacze[4] += 10;
+   024C 74 0A               928 	mov	a,#0x0A
+   024E 25*10               929 	add	a,(_wyswietlacze + 0x0004)
+   0250 F5*10               930 	mov	(_wyswietlacze + 0x0004),a
+                            931 ;	zegarek.c:193: wyswietlacze[5] += 10;
+   0252 74 0A               932 	mov	a,#0x0A
+   0254 25*11               933 	add	a,(_wyswietlacze + 0x0005)
+   0256 F5*11               934 	mov	(_wyswietlacze + 0x0005),a
+   0258 80 3D               935 	sjmp	00123$
+   025A                     936 00120$:
+                            937 ;	zegarek.c:195: else if(temp_p == 1) {
+   025A 74 01               938 	mov	a,#0x01
+   025C B5*09 1D            939 	cjne	a,_temp_p,00117$
+                            940 ;	zegarek.c:196: temp_p = 0;
+   025F 75*09 00            941 	mov	_temp_p,#0x00
+                            942 ;	zegarek.c:197: wyswietlacze[2] -= 10;
+   0262 E5*0E               943 	mov	a,(_wyswietlacze + 0x0002)
+   0264 24 F6               944 	add	a,#0xf6
+   0266 F5*0E               945 	mov	(_wyswietlacze + 0x0002),a
+                            946 ;	zegarek.c:198: wyswietlacze[3] -= 10;
+   0268 E5*0F               947 	mov	a,(_wyswietlacze + 0x0003)
+   026A 24 F6               948 	add	a,#0xf6
+   026C F5*0F               949 	mov	(_wyswietlacze + 0x0003),a
+                            950 ;	zegarek.c:199: wyswietlacze[0] += 10;
+   026E 74 0A               951 	mov	a,#0x0A
+   0270 25*0C               952 	add	a,_wyswietlacze
+   0272 F5*0C               953 	mov	_wyswietlacze,a
+                            954 ;	zegarek.c:200: wyswietlacze[1] += 10;
+   0274 74 0A               955 	mov	a,#0x0A
+   0276 25*0D               956 	add	a,(_wyswietlacze + 0x0001)
+   0278 F5*0D               957 	mov	(_wyswietlacze + 0x0001),a
+   027A 80 1B               958 	sjmp	00123$
+   027C                     959 00117$:
+                            960 ;	zegarek.c:203: temp_p = 1;
+   027C 75*09 01            961 	mov	_temp_p,#0x01
+                            962 ;	zegarek.c:204: wyswietlacze[4] -= 10;
+   027F E5*10               963 	mov	a,(_wyswietlacze + 0x0004)
+   0281 24 F6               964 	add	a,#0xf6
+   0283 F5*10               965 	mov	(_wyswietlacze + 0x0004),a
+                            966 ;	zegarek.c:205: wyswietlacze[5] -= 10;
+   0285 E5*11               967 	mov	a,(_wyswietlacze + 0x0005)
+   0287 24 F6               968 	add	a,#0xf6
+   0289 F5*11               969 	mov	(_wyswietlacze + 0x0005),a
+                            970 ;	zegarek.c:206: wyswietlacze[2] += 10;
+   028B 74 0A               971 	mov	a,#0x0A
+   028D 25*0E               972 	add	a,(_wyswietlacze + 0x0002)
+   028F F5*0E               973 	mov	(_wyswietlacze + 0x0002),a
+                            974 ;	zegarek.c:207: wyswietlacze[3] += 10;
+   0291 74 0A               975 	mov	a,#0x0A
+   0293 25*0F               976 	add	a,(_wyswietlacze + 0x0003)
+   0295 F5*0F               977 	mov	(_wyswietlacze + 0x0003),a
+   0297                     978 00123$:
+                            979 ;	zegarek.c:210: if(kbd == 0b00100000) { //strza³ka w lewo
+   0297 74 20               980 	mov	a,#0x20
+   0299 B5*04 5F            981 	cjne	a,_kbd,00131$
+                            982 ;	zegarek.c:211: if(temp_p == 2) {
+   029C 74 02               983 	mov	a,#0x02
+   029E B5*09 1D            984 	cjne	a,_temp_p,00128$
+                            985 ;	zegarek.c:212: temp_p = 0;
+   02A1 75*09 00            986 	mov	_temp_p,#0x00
+                            987 ;	zegarek.c:213: wyswietlacze[5] -= 10;
+   02A4 E5*11               988 	mov	a,(_wyswietlacze + 0x0005)
+   02A6 24 F6               989 	add	a,#0xf6
+   02A8 F5*11               990 	mov	(_wyswietlacze + 0x0005),a
+                            991 ;	zegarek.c:214: wyswietlacze[4] -= 10;
+   02AA E5*10               992 	mov	a,(_wyswietlacze + 0x0004)
+   02AC 24 F6               993 	add	a,#0xf6
+   02AE F5*10               994 	mov	(_wyswietlacze + 0x0004),a
+                            995 ;	zegarek.c:215: wyswietlacze[0] += 10;
+   02B0 74 0A               996 	mov	a,#0x0A
+   02B2 25*0C               997 	add	a,_wyswietlacze
+   02B4 F5*0C               998 	mov	_wyswietlacze,a
+                            999 ;	zegarek.c:216: wyswietlacze[1] += 10;
+   02B6 74 0A              1000 	mov	a,#0x0A
+   02B8 25*0D              1001 	add	a,(_wyswietlacze + 0x0001)
+   02BA F5*0D              1002 	mov	(_wyswietlacze + 0x0001),a
+   02BC 80 3D              1003 	sjmp	00131$
+   02BE                    1004 00128$:
+                           1005 ;	zegarek.c:218: else if(temp_p == 1) {
+   02BE 74 01              1006 	mov	a,#0x01
+   02C0 B5*09 1D           1007 	cjne	a,_temp_p,00125$
+                           1008 ;	zegarek.c:219: temp_p = 2;
+   02C3 75*09 02           1009 	mov	_temp_p,#0x02
+                           1010 ;	zegarek.c:220: wyswietlacze[2] -= 10;
+   02C6 E5*0E              1011 	mov	a,(_wyswietlacze + 0x0002)
+   02C8 24 F6              1012 	add	a,#0xf6
+   02CA F5*0E              1013 	mov	(_wyswietlacze + 0x0002),a
+                           1014 ;	zegarek.c:221: wyswietlacze[3] -= 10;
+   02CC E5*0F              1015 	mov	a,(_wyswietlacze + 0x0003)
+   02CE 24 F6              1016 	add	a,#0xf6
+   02D0 F5*0F              1017 	mov	(_wyswietlacze + 0x0003),a
+                           1018 ;	zegarek.c:222: wyswietlacze[4] += 10;
+   02D2 74 0A              1019 	mov	a,#0x0A
+   02D4 25*10              1020 	add	a,(_wyswietlacze + 0x0004)
+   02D6 F5*10              1021 	mov	(_wyswietlacze + 0x0004),a
+                           1022 ;	zegarek.c:223: wyswietlacze[5] += 10;
+   02D8 74 0A              1023 	mov	a,#0x0A
+   02DA 25*11              1024 	add	a,(_wyswietlacze + 0x0005)
+   02DC F5*11              1025 	mov	(_wyswietlacze + 0x0005),a
+   02DE 80 1B              1026 	sjmp	00131$
+   02E0                    1027 00125$:
+                           1028 ;	zegarek.c:226: temp_p = 1;
+   02E0 75*09 01           1029 	mov	_temp_p,#0x01
+                           1030 ;	zegarek.c:227: wyswietlacze[0] -= 10;
+   02E3 E5*0C              1031 	mov	a,_wyswietlacze
+   02E5 24 F6              1032 	add	a,#0xf6
+   02E7 F5*0C              1033 	mov	_wyswietlacze,a
+                           1034 ;	zegarek.c:228: wyswietlacze[1] -= 10;
+   02E9 E5*0D              1035 	mov	a,(_wyswietlacze + 0x0001)
+   02EB 24 F6              1036 	add	a,#0xf6
+   02ED F5*0D              1037 	mov	(_wyswietlacze + 0x0001),a
+                           1038 ;	zegarek.c:229: wyswietlacze[2] += 10;
+   02EF 74 0A              1039 	mov	a,#0x0A
+   02F1 25*0E              1040 	add	a,(_wyswietlacze + 0x0002)
+   02F3 F5*0E              1041 	mov	(_wyswietlacze + 0x0002),a
+                           1042 ;	zegarek.c:230: wyswietlacze[3] += 10;
+   02F5 74 0A              1043 	mov	a,#0x0A
+   02F7 25*0F              1044 	add	a,(_wyswietlacze + 0x0003)
+   02F9 F5*0F              1045 	mov	(_wyswietlacze + 0x0003),a
+   02FB                    1046 00131$:
+                           1047 ;	zegarek.c:233: if(kbd == 0b00001000) { //strza³ka w górê
+   02FB 74 08              1048 	mov	a,#0x08
+   02FD B5*04 1A           1049 	cjne	a,_kbd,00141$
+                           1050 ;	zegarek.c:234: if(edit_mode) {
+   0300 30*04 17           1051 	jnb	_edit_mode,00141$
+                           1052 ;	zegarek.c:235: if(temp_p == 0) {
+   0303 E5*09              1053 	mov	a,_temp_p
+   0305 70 03              1054 	jnz	00133$
+                           1055 ;	zegarek.c:236: inc_sec();
+   0307 12s00rA1           1056 	lcall	_inc_sec
+   030A                    1057 00133$:
+                           1058 ;	zegarek.c:238: if(temp_p == 1) {
+   030A 74 01              1059 	mov	a,#0x01
+   030C B5*09 03           1060 	cjne	a,_temp_p,00135$
+                           1061 ;	zegarek.c:239: inc_min();
+   030F 12s01r06           1062 	lcall	_inc_min
+   0312                    1063 00135$:
+                           1064 ;	zegarek.c:241: if(temp_p == 2) {
+   0312 74 02              1065 	mov	a,#0x02
+   0314 B5*09 03           1066 	cjne	a,_temp_p,00141$
+                           1067 ;	zegarek.c:242: inc_hour();
+   0317 12s01r6B           1068 	lcall	_inc_hour
+   031A                    1069 00141$:
+                           1070 ;	zegarek.c:246: if(kbd == 0b00010000) { //strza³ka w dó³
+   031A 74 10              1071 	mov	a,#0x10
+   031C B5*04 1A           1072 	cjne	a,_kbd,00154$
+                           1073 ;	zegarek.c:247: if(edit_mode) {
+   031F 30*04 17           1074 	jnb	_edit_mode,00154$
+                           1075 ;	zegarek.c:248: if(temp_p == 0) {
+   0322 E5*09              1076 	mov	a,_temp_p
+   0324 70 03              1077 	jnz	00143$
+                           1078 ;	zegarek.c:249: dec_sec();
+   0326 12s00rEB           1079 	lcall	_dec_sec
+   0329                    1080 00143$:
+                           1081 ;	zegarek.c:251: if(temp_p == 1) {
+   0329 74 01              1082 	mov	a,#0x01
+   032B B5*09 03           1083 	cjne	a,_temp_p,00145$
+                           1084 ;	zegarek.c:252: dec_min();
+   032E 12s01r50           1085 	lcall	_dec_min
+   0331                    1086 00145$:
+                           1087 ;	zegarek.c:254: if(temp_p == 2) {
+   0331 74 02              1088 	mov	a,#0x02
+   0333 B5*09 03           1089 	cjne	a,_temp_p,00154$
+                           1090 ;	zegarek.c:255: dec_hour();
+   0336 02s01rB8           1091 	ljmp	_dec_hour
+   0339                    1092 00154$:
+   0339 22                 1093 	ret
+                           1094 ;------------------------------------------------------------
+                           1095 ;Allocation info for local variables in function 'enter_edit_mode'
+                           1096 ;------------------------------------------------------------
+                           1097 ;------------------------------------------------------------
+                           1098 ;	zegarek.c:261: void enter_edit_mode(void) {
+                           1099 ;	-----------------------------------------
+                           1100 ;	 function enter_edit_mode
+                           1101 ;	-----------------------------------------
+   033A                    1102 _enter_edit_mode:
+                           1103 ;	zegarek.c:262: if(!edit_mode) {
+   033A 20*04 0A           1104 	jb	_edit_mode,00105$
+                           1105 ;	zegarek.c:263: edit_mode = 1;
+   033D D2*04              1106 	setb	_edit_mode
+                           1107 ;	zegarek.c:264: if(INTERRUPT_FLAG != 1) {
+   033F 20*03 05           1108 	jb	_INTERRUPT_FLAG,00105$
+                           1109 ;	zegarek.c:265: T0counter = 0;
+   0342 E4                 1110 	clr	a
+   0343 F5*0A              1111 	mov	_T0counter,a
+   0345 F5*0B              1112 	mov	(_T0counter + 1),a
+   0347                    1113 00105$:
+   0347 22                 1114 	ret
+                           1115 ;------------------------------------------------------------
+                           1116 ;Allocation info for local variables in function 'refresh_display'
+                           1117 ;------------------------------------------------------------
+                           1118 ;------------------------------------------------------------
+                           1119 ;	zegarek.c:269: void refresh_display(void) {
+                           1120 ;	-----------------------------------------
+                           1121 ;	 function refresh_display
+                           1122 ;	-----------------------------------------
+   0348                    1123 _refresh_display:
+                           1124 ;	zegarek.c:270: SEG_OFF = TRUE;
+   0348 D2 96              1125 	setb	_SEG_OFF
+                           1126 ;	zegarek.c:271: *led_wyb = led_b;
+   034A 85*00 82           1127 	mov	dpl,_led_wyb
+   034D 85*01 83           1128 	mov	dph,(_led_wyb + 1)
+   0350 E5*07              1129 	mov	a,_led_b
+   0352 F0                 1130 	movx	@dptr,a
+                           1131 ;	zegarek.c:272: *led_led = WZOR[wyswietlacze[led_p]];
+   0353 AA*02              1132 	mov	r2,_led_led
+   0355 AB*03              1133 	mov	r3,(_led_led + 1)
+   0357 E5*06              1134 	mov	a,_led_p
+   0359 24r0C              1135 	add	a,#_wyswietlacze
+   035B F8                 1136 	mov	r0,a
+   035C E6                 1137 	mov	a,@r0
+   035D 90s00r00           1138 	mov	dptr,#_WZOR
+   0360 93                 1139 	movc	a,@a+dptr
+   0361 FC                 1140 	mov	r4,a
+   0362 8A 82              1141 	mov	dpl,r2
+   0364 8B 83              1142 	mov	dph,r3
+   0366 F0                 1143 	movx	@dptr,a
+                           1144 ;	zegarek.c:273: temp_b = led_b;
+   0367 85*07*08           1145 	mov	_temp_b,_led_b
+                           1146 ;	zegarek.c:274: kbdBefore = temp_b;
+   036A 85*08*05           1147 	mov	_kbdBefore,_temp_b
+                           1148 ;	zegarek.c:275: SEG_OFF = FALSE;
+   036D C2 96              1149 	clr	_SEG_OFF
+                           1150 ;	zegarek.c:276: if(led_p == 5) {
+   036F 74 05              1151 	mov	a,#0x05
+   0371 B5*06 07           1152 	cjne	a,_led_p,00102$
+                           1153 ;	zegarek.c:277: led_p = 0;
+   0374 75*06 00           1154 	mov	_led_p,#0x00
+                           1155 ;	zegarek.c:278: led_b = 1;
+   0377 75*07 01           1156 	mov	_led_b,#0x01
+   037A 22                 1157 	ret
+   037B                    1158 00102$:
+                           1159 ;	zegarek.c:281: led_p++;
+   037B 05*06              1160 	inc	_led_p
+                           1161 ;	zegarek.c:282: led_b = led_b<<1;
+   037D E5*07              1162 	mov	a,_led_b
+   037F 25*07              1163 	add	a,_led_b
+   0381 F5*07              1164 	mov	_led_b,a
+   0383 22                 1165 	ret
+                           1166 ;------------------------------------------------------------
+                           1167 ;Allocation info for local variables in function 'main'
+                           1168 ;------------------------------------------------------------
+                           1169 ;i                         Allocated to registers 
+                           1170 ;k                         Allocated to registers 
+                           1171 ;------------------------------------------------------------
+                           1172 ;	zegarek.c:285: void main()
+                           1173 ;	-----------------------------------------
+                           1174 ;	 function main
+                           1175 ;	-----------------------------------------
+   0384                    1176 _main:
+                           1177 ;	zegarek.c:290: led_p = 0;
+   0384 75*06 00           1178 	mov	_led_p,#0x00
+                           1179 ;	zegarek.c:291: led_b = 1;
+   0387 75*07 01           1180 	mov	_led_b,#0x01
+                           1181 ;	zegarek.c:292: temp_b = 1;
+   038A 75*08 01           1182 	mov	_temp_b,#0x01
+                           1183 ;	zegarek.c:293: temp_p = 0;
+   038D 75*09 00           1184 	mov	_temp_p,#0x00
+                           1185 ;	zegarek.c:294: edit_mode = 0;
+   0390 C2*04              1186 	clr	_edit_mode
+                           1187 ;	zegarek.c:295: kbd = 0;
+   0392 75*04 00           1188 	mov	_kbd,#0x00
+                           1189 ;	zegarek.c:296: kbdBefore = 0;
+   0395 75*05 00           1190 	mov	_kbdBefore,#0x00
+                           1191 ;	zegarek.c:297: init_interrupts();
+   0398 12s00r91           1192 	lcall	_init_interrupts
+                           1193 ;	zegarek.c:298: while(TRUE) {
+   039B                    1194 00118$:
+                           1195 ;	zegarek.c:299: if(INTERRUPT_FLAG){
+                           1196 ;	zegarek.c:300: INTERRUPT_FLAG=FALSE;
+   039B 10*03 02           1197 	jbc	_INTERRUPT_FLAG,00132$
+   039E 80 FB              1198 	sjmp	00118$
+   03A0                    1199 00132$:
+                           1200 ;	zegarek.c:301: refresh_display();
+   03A0 12s03r48           1201 	lcall	_refresh_display
+                           1202 ;	zegarek.c:302: if(P3_5 && kbd == 0 ) {
+   03A3 30 B5 09           1203 	jnb	_P3_5,00105$
+   03A6 E5*04              1204 	mov	a,_kbd
+   03A8 70 05              1205 	jnz	00105$
+                           1206 ;	zegarek.c:303: keyboard();
+   03AA 12s01rD6           1207 	lcall	_keyboard
+   03AD 80 0B              1208 	sjmp	00106$
+   03AF                    1209 00105$:
+                           1210 ;	zegarek.c:305: else if(!P3_5 && kbd == kbdBefore) {
+   03AF 20 B5 08           1211 	jb	_P3_5,00106$
+   03B2 E5*05              1212 	mov	a,_kbdBefore
+   03B4 B5*04 03           1213 	cjne	a,_kbd,00106$
+                           1214 ;	zegarek.c:306: kbd = 0;
+   03B7 75*04 00           1215 	mov	_kbd,#0x00
+   03BA                    1216 00106$:
+                           1217 ;	zegarek.c:308: if(edit_mode && led_p == 5) {
+   03BA 30*04 08           1218 	jnb	_edit_mode,00109$
+   03BD 74 05              1219 	mov	a,#0x05
+   03BF B5*06 03           1220 	cjne	a,_led_p,00109$
+                           1221 ;	zegarek.c:309: enter_edit_mode();
+   03C2 12s03r3A           1222 	lcall	_enter_edit_mode
+   03C5                    1223 00109$:
+                           1224 ;	zegarek.c:311: if(!edit_mode) {
+   03C5 20*04 D3           1225 	jb	_edit_mode,00118$
+                           1226 ;	zegarek.c:312: T0counter++;
+   03C8 05*0A              1227 	inc	_T0counter
+   03CA E4                 1228 	clr	a
+   03CB B5*0A 02           1229 	cjne	a,_T0counter,00142$
+   03CE 05*0B              1230 	inc	(_T0counter + 1)
+   03D0                    1231 00142$:
+                           1232 ;	zegarek.c:313: if(T0counter == 1000) { 
+   03D0 74 E8              1233 	mov	a,#0xE8
+   03D2 B5*0A C6           1234 	cjne	a,_T0counter,00118$
+   03D5 74 03              1235 	mov	a,#0x03
+   03D7 B5*0B C1           1236 	cjne	a,(_T0counter + 1),00118$
+                           1237 ;	zegarek.c:314: T0counter = 0;
+   03DA E4                 1238 	clr	a
+   03DB F5*0A              1239 	mov	_T0counter,a
+   03DD F5*0B              1240 	mov	(_T0counter + 1),a
+                           1241 ;	zegarek.c:315: incTime();
+   03DF 12s00r00           1242 	lcall	_incTime
+   03E2 80 B7              1243 	sjmp	00118$
+                           1244 	.area CSEG    (CODE)
+                           1245 	.area CONST   (CODE)
+   0000                    1246 _WZOR:
+   0000 3F                 1247 	.db #0x3F
+   0001 06                 1248 	.db #0x06
+   0002 5B                 1249 	.db #0x5B
+   0003 4F                 1250 	.db #0x4F
+   0004 66                 1251 	.db #0x66
+   0005 6D                 1252 	.db #0x6D
+   0006 7D                 1253 	.db #0x7D
+   0007 07                 1254 	.db #0x07
+   0008 7F                 1255 	.db #0x7F
+   0009 6F                 1256 	.db #0x6F
+   000A BF                 1257 	.db #0xBF
+   000B 86                 1258 	.db #0x86
+   000C DB                 1259 	.db #0xDB
+   000D CF                 1260 	.db #0xCF
+   000E E6                 1261 	.db #0xE6
+   000F ED                 1262 	.db #0xED
+   0010 FD                 1263 	.db #0xFD
+   0011 87                 1264 	.db #0x87
+   0012 FF                 1265 	.db #0xFF
+   0013 EF                 1266 	.db #0xEF
+                           1267 	.area XINIT   (CODE)
+                           1268 	.area CABS    (ABS,CODE)
